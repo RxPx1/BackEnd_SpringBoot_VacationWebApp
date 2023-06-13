@@ -22,4 +22,13 @@ public class CheckoutController {
         return purchaseResponseData;
     }
 
+    @GetMapping("/cart-summary")
+    public String getCartSummary(){
+        return "Cart Summary";
+    }
+
+    @GetMapping("/order-confirmation")
+    public String getOrderConfirmation(){
+        return "Order Confirmation";
+    }
 }
