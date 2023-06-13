@@ -24,18 +24,16 @@ public class Country {
     @Column(name= "country_id")
     private Long id;
 
-    @NotBlank(message= "Country name is required")
+
     @Column(name= "country")
     private String country_name;
 
     @CreationTimestamp
     @Column(name = "create_date")
-    @NotNull(message = "Date is required")
     private Date create_date;
 
     @UpdateTimestamp
     @Column(name = "last_update")
-    @NotNull(message = "Last update is required")
     private Date last_update;
 
     @OneToMany(mappedBy = "countries", cascade = CascadeType.ALL)

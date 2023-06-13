@@ -11,9 +11,9 @@ import java.util.Set;
 import java.util.UUID;
 
 @Service
-public class CheckoutServiceImpl implements CheckoutService {
+public class CheckoutServiceImpl implements CheckoutService{
 
-    private final CustomerRepository customerRepository;
+    public final CustomerRepository customerRepository;
 
     public CheckoutServiceImpl(CustomerRepository customerRepository){
         this.customerRepository = customerRepository;
@@ -21,7 +21,7 @@ public class CheckoutServiceImpl implements CheckoutService {
 
     @Override
     @Transactional
-    public PurchaseResponseData placeOrder(PurchaseData purchaseData) {
+    public PurchaseResponseData placeOrder(PurchaseData purchaseData){
 
         Cart cart = purchaseData.getCart();
         String orderTrackingNumber = generateOrderTrackingNumber();
@@ -37,9 +37,10 @@ public class CheckoutServiceImpl implements CheckoutService {
         return new PurchaseResponseData(orderTrackingNumber);
     }
 
-    private String generateOrderTrackingNumber() {
+    private String generateOrderTrackingNumber(){
         return UUID.randomUUID().toString();
     }
+
 
 
 }

@@ -23,24 +23,24 @@ public class Vacation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name= "vacation_id")
+    @Column(name = "vacation_id")
     private Long id;
 
     @NotBlank(message = "Vacation title is required")
-    @Column(name= "vacation_title")
+    @Column(name = "vacation_title")
     private String vacation_title;
 
     @NotBlank(message = "Description is required")
-    @Column(name= "description")
+    @Column(name = "description")
     private String description;
 
     @NotNull(message = "Travel price is required")
     @DecimalMin(value = "0.0", inclusive = false, message = "Travel price is required")
-    @Column(name= "travel_fair_price")
+    @Column(name = "travel_fare_price")
     private BigDecimal travel_price;
 
     @NotBlank(message = "Image URL is required")
-    @Column(name= "image_url")
+    @Column(name = "image_url")
     private String image_URL;
 
     @CreationTimestamp
@@ -56,16 +56,7 @@ public class Vacation {
     @OneToMany(mappedBy = "vacations", cascade = CascadeType.ALL)
     private Set<Excursion> excursions = new HashSet<>();
 
-    public Vacation(){
+    public Vacation() {
 
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Id
-    public Long getId() {
-        return id;
     }
 }
