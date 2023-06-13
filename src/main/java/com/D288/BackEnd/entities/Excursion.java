@@ -2,56 +2,59 @@ package com.D288.BackEnd.entities;
 
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Data
-@Table(name = "excursion")
+@Getter
+@Setter
+@Table(name = "excursions")
 public class Excursion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name= "excursion_id")
     private Long id;
 
-    @NotBlank(message = "Excursion is required")
+    @Column(name= "excursion_price")
+    private BigDecimal excursion_price;
+
+    @Column(name= "excursion_title")
     private String excursion_title;
 
-    @NotBlank(message = "Image URL is required")
+
+    @Column(name= "image_url")
     private String image_URL;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
     @Column(name = "create_date")
     @NotNull(message = "Date is required")
     private Date create_date;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @UpdateTimestamp
     @Column(name = "last_update")
     @NotNull(message = "Last update is required")
     private Date last_update;
 
     @ManyToOne
-    @JoinColumn(name = "vacation_id")
-    @NotNull(message = "Vacation is required")
+    @JoinColumn(name = "vacation_id", nullable = false)
     private Vacation vacation;
 
-    @ManyToMany(mappedBy = "excursion", cascade = CascadeType.ALL)
-    private Set<CartItem> cartItems;
+    @ManyToMany
+    @JoinTable(name = "excursion_cartitem", joinColumns = @JoinColumn(name="excursion_id"), inverseJoinColumns = @JoinColumn(name = "cart_item_id"))
+    private Set<CartItem> cartItems = new HashSet<>();
+
 
     public Excursion(){
 
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Id
-    public Long getId() {
-        return id;
-    }
 }

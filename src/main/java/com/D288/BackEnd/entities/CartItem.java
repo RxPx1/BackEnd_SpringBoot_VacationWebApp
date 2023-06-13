@@ -3,52 +3,48 @@ package com.D288.BackEnd.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Data
-@Table(name = "cart_item")
+@Table(name = "cart_items")
 public class CartItem {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name= "cart_item_id")
     private Long id;
 
-    @NotNull(message = "Vacation is required")
+
     @ManyToOne
+    @JoinColumn(name= "vacation_id", nullable = false)
     private Vacation vacation;
 
     @NotEmpty(message = "Excursion is required")
     @ManyToMany
-    private Set<Excursion> excursions;
+    @JoinTable(name= "excursion_cartitem", joinColumns = @JoinColumn(name="cart_item_id"), inverseJoinColumns = @JoinColumn(name="excursion_id"))
+    private Set<Excursion> excursions = new HashSet<>();
 
-    @NotNull(message = "Cart is required")
     @ManyToOne
-    private Cart cart;
+    @JoinColumn(name= "cart_id", nullable = false)
+    private Cart carts;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
     @Column(name = "create_date")
-    @NotNull(message = "Date is required")
     private Date create_date;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @UpdateTimestamp
     @Column(name = "last_update")
-    @NotNull(message = "Last update is required")
     private Date last_update;
 
     public CartItem(){
 
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Id
-    public Long getId() {
-        return id;
-    }
 }

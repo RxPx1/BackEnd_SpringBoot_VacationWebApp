@@ -1,37 +1,41 @@
 package com.D288.BackEnd.config;
 
 import com.D288.BackEnd.entities.*;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.metamodel.EntityType;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
-/**
- * <h1>RestDataConfig</h1>
- * per course instructions include this code to configure the rest api end-points exposed for the project
- * TODO restrict non-used rest api end points
- * <p>
- *
- * @author WGU Course Materials
- * @version 0.1
- * @since 2023-02-27
- */
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+
+ //* TODO restrict non-used rest api end points
+
 @Configuration
 public class RestDataConfig implements RepositoryRestConfigurer {
 
-    /**
-     * This method exposes standard rest api end points for the following classes:
-     * Country
-     * Customer
-     * Division
-     * Excursion
-     * Vacation
-     * <p>
-     * Set page configuration parameters
-     *
-     * @param config
-     * @param cors
-     */
+    private final EntityManager entityManager;
+
+    @Autowired
+    public RestDataConfig(EntityManager theEntityManager){
+        entityManager = theEntityManager;
+    }
+
+    private void exposeIds(RepositoryRestConfiguration config){
+        Set<EntityType<?>> entities = entityManager.getMetamodel().getEntities();
+        List<Class> entityClasses = new ArrayList<>();
+        for(EntityType tempEntityType : entities){
+            entityClasses.add(tempEntityType.getJavaType());
+        }
+
+        Class[] domainTypes = entityClasses.toArray(new Class[0]);
+        config.exposeIdsFor(domainTypes);
+    }
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
         config.exposeIdsFor(Country.class);
