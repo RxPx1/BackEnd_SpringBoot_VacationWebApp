@@ -34,17 +34,20 @@ public class Division {
     @Column(name = "last_update")
     private Date last_update;
 
-    @ManyToOne
-    @JoinColumn(name = "country_id", nullable = false)
-    private Country countries;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "country_id", nullable = false, insertable = false,updatable = false)
+    private Country country;
 
 
 
     public Division() {
 
     }
+    @Column(name="country_id")
+    private long country_id;
     public void setCountry(Country country){
-        this.countries = countries;
+        setCountry_id(country.getId());
+        this.country = country;
     }
 
 }

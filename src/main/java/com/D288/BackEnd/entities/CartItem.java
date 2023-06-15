@@ -4,6 +4,8 @@ package com.D288.BackEnd.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -12,7 +14,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "cart_items")
 public class CartItem {
 
@@ -26,7 +29,7 @@ public class CartItem {
     @JoinColumn(name= "vacation_id", nullable = false)
     private Vacation vacation;
 
-    @NotEmpty(message = "Excursion is required")
+
     @ManyToMany
     @JoinTable(name= "excursion_cartitem", joinColumns = @JoinColumn(name="cart_item_id"), inverseJoinColumns = @JoinColumn(name="excursion_id"))
     private Set<Excursion> excursions = new HashSet<>();

@@ -36,17 +36,8 @@ public class Country {
     @Column(name = "last_update")
     private Date last_update;
 
-    @OneToMany(mappedBy = "countries", cascade = CascadeType.ALL)
-    private Set<Division> divisions = new HashSet<>();
+    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
+    private Set<Division> divisions;
 
-    public void add(Division divs){
-        if(divs != null){
-            if(divisions == null){
-                divisions = new HashSet<>();
-            }
-            divisions.add(divs);
-            divs.setCountries(this);
-        }
-    }
 
 }

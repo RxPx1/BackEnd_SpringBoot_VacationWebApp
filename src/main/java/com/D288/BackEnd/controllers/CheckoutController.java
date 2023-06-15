@@ -1,5 +1,9 @@
 package com.D288.BackEnd.controllers;
 
+import com.D288.BackEnd.entities.Cart;
+import com.D288.BackEnd.entities.StatusType;
+
+import java.lang.String;
 import com.D288.BackEnd.services.CheckoutService;
 import com.D288.BackEnd.services.PurchaseData;
 import com.D288.BackEnd.services.PurchaseResponseData;
@@ -18,8 +22,8 @@ public class CheckoutController {
 
     @PostMapping("/purchase")
     public PurchaseResponseData placeOrder(@RequestBody PurchaseData purchaseData){
-        PurchaseResponseData purchaseResponseData = checkoutService.placeOrder(purchaseData);
-        return purchaseResponseData;
+        PurchaseResponseData purchaseResponse = checkoutService.placeOrder(purchaseData);
+        return purchaseResponse;
     }
 
     @GetMapping("/cart-summary")
@@ -29,6 +33,6 @@ public class CheckoutController {
 
     @GetMapping("/order-confirmation")
     public String getOrderConfirmation(){
-        return "Order Confirmation";
+        return "Order Confirmed";
     }
 }
